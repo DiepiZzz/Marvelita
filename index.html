@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marvel News</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body {
+            background: #fff;
+            color: #000;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        /* Header */
+        header {
+            background: #000;
+            color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: #fff;
+            font-weight: 600;
+            position: relative;
+        }
+
+        nav a::after {
+            content: "";
+            display: block;
+            height: 2px;
+            width: 0;
+            background: red;
+            transition: 0.3s;
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero */
+        .hero {
+            background: black;
+            text-align: center;
+            padding: 6rem 1rem;
+            color: #fff;
+        }
+
+        .hero h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            text-shadow: 0 0 10px #000;
+        }
+
+        .hero p {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+
+        section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            border-bottom: 3px solid black;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* Noticias */
+        .noticias .grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .noticia {
+            background: #f4f4f4;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .noticia:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .noticia img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .noticia .contenido {
+            padding: 1rem;
+        }
+
+        /* Trailers */
+        .trailers .videos {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        }
+
+        .trailers iframe {
+            width: 100%;
+            border: 3px solid black;
+            border-radius: 8px;
+            height: 220px;
+        }
+
+        /* Estrenos interactivos */
+        .estrenos .grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .estreno {
+            background: #fafafa;
+            padding: 1rem;
+            border: 2px solid #000;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .estreno:hover {
+            transform: scale(1.05);
+        }
+
+        .estreno .extra {
+            display: none;
+            margin-top: .5rem;
+            font-size: 0.9rem;
+        }
+
+        .estreno.active .extra {
+            display: block;
+        }
+
+        /* Cronología */
+        .cronologia {
+            position: relative;
+            padding-left: 20px;
+            border-left: 3px solid black;
+        }
+
+        .evento {
+            margin-bottom: 1rem;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .evento::before {
+            content: "";
+            width: 15px;
+            height: 15px;
+            background: red;
+            border-radius: 50%;
+            position: absolute;
+            left: -28px;
+            top: 5px;
+        }
+
+        .evento p {
+            display: none;
+            margin-top: .3rem;
+            font-size: 0.9rem;
+        }
+
+        .evento.active p {
+            display: block;
+        }
+
+        /* Foro */
+        .foro .mensajes {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 8px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .mensaje {
+            background: #fff;
+            padding: .8rem;
+            margin-bottom: .5rem;
+            border: 1px solid #000;
+            border-radius: 6px;
+        }
+
+        .foro form {
+            margin-top: 1rem;
+            display: flex;
+            gap: .5rem;
+        }
+
+        .foro input {
+            flex: 1;
+            padding: .5rem;
+            border: 1px solid #000;
+            border-radius: 4px;
+        }
+
+        .foro button {
+            padding: .5rem 1rem;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Cursor efecto */
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid red;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease;
+            z-index: 2000;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #000;
+            color: #fff;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor"></div>
+
+    <header>
+        <h1>Marvel News</h1>
+        <nav>
+            <ul>
+                <li><a href="#noticias">Noticias</a></li>
+                <li><a href="#estrenos">Estrenos</a></li>
+                <li><a href="#trailers">Trailers</a></li>
+                <li><a href="#cronologia">Cronología</a></li>
+                <li><a href="#foro">Foro</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>TheGeek news - Marvel</h2>
+        <p>Todas las noticias, estrenos y cronologías del UCM</p>
+    </section>
+
+    <!-- Noticias -->
+    <section id="noticias" class="noticias">
+        <h3>Noticias</h3>
+        <div class="grid">
+            <article class="noticia">
+                <img src="https://cl2.buscafs.com/www.tomatazos.com/public/uploads/images/458728/458728.jpg"
+                    alt="Deadpool 3">
+                <div class="contenido">
+                    <h4><a href="https://www.marvel.com/movies/deadpool-and-wolverine" target="_blank">Deadpool &
+                            Wolverine rompe Internet</a></h4>
+                    <p>El esperado crossover del MCU ya tiene fecha confirmada.</p>
+                </div>
+            </article>
+            <article class="noticia">
+                <img src="https://i.blogs.es/75df55/marvel-studios/1200_800.webp"
+                    alt="Capitan America 4">
+                <div class="contenido">
+                    <h4><a href="https://i.blogs.es/75df55/marvel-studios/1200_800.webp" target="_blank">Capitán
+                            América 4 en producción</a></h4>
+                    <p>Sam Wilson porta el escudo en una nueva era del Capitán América.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Estrenos -->
+    <section id="estrenos" class="estrenos">
+        <h3>Próximos Estrenos</h3>
+        <div class="grid">
+            <div class="estreno">
+                <h4>Deadpool & Wolverine</h4>
+                <div class="extra">Estreno: Julio 2025 - Un dúo explosivo en el MCU.</div>
+            </div>
+            <div class="estreno">
+                <h4>Capitán América: Brave New World</h4>
+                <div class="extra">Estreno: Febrero 2025 - Sam Wilson toma el legado.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trailers -->
+    <section id="trailers" class="trailers">
+        <h3>Últimos Trailers</h3>
+        <div class="videos">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/n7yobs9pQso?si=iTgyRDfhp5lZNilW"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/waf9snfaUFw?si=0-Wy4iy6XyxU46kd"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <!-- Cronología -->
+    <section id="cronologia" class="cronologia">
+        <h3>Cronología del UCM</h3>
+        <div class="evento"><strong>Iron Man (2008)</strong>
+            <p>El inicio del Universo Cinematográfico de Marvel.</p>
+        </div>
+        <div class="evento"><strong>Avengers: Endgame (2019)</strong>
+            <p>El cierre de la saga del Infinito.</p>
+        </div>
+        <div class="evento"><strong>Deadpool & Wolverine (2025)</strong>
+            <p>El inicio de una nueva etapa dentro del MCU.</p>
+        </div>
+    </section>
+
+    <!-- Foro -->
+    <section id="foro" class="foro">
+        <h3>Foro de Fans</h3>
+        <div class="mensajes" id="mensajes">
+            <div class="mensaje"><strong>@TonyStark:</strong> ¡Ya quiero ver Deadpool con Wolverine!</div>
+            <div class="mensaje"><strong>@MarvelFan:</strong> ¿Creen que Deadpool entre al multiverso?</div>
+        </div>
+        <form id="formForo">
+            <input type="text" id="mensajeInput" placeholder="Escribe tu comentario...">
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Marvel News - Fan Page</p>
+    </footer>
+
+    <script>
+        // --- Cursor personalizado ---
+        const cursor = document.querySelector(".cursor");
+        document.addEventListener("mousemove", e => {
+            cursor.style.top = e.pageY + "px";
+            cursor.style.left = e.pageX + "px";
+        });
+
+        // --- Estrenos interactivos ---
+        document.querySelectorAll(".estreno").forEach(item => {
+            item.addEventListener("click", () => item.classList.toggle("active"));
+        });
+
+        // --- Cronología interactiva ---
+        document.querySelectorAll(".evento").forEach(ev => {
+            ev.addEventListener("click", () => ev.classList.toggle("active"));
+        });
+
+        // --- Foro dinámico ---
+        const form = document.getElementById("formForo");
+        const mensajes = document.getElementById("mensajes");
+        form.addEventListener("submit", e => {
+            e.preventDefault();
+            const input = document.getElementById("mensajeInput");
+            if (input.value.trim() !== "") {
+                const div = document.createElement("div");
+                div.classList.add("mensaje");
+                div.innerHTML = `<strong>@Usuario:</strong> ${input.value}`;
+                mensajes.appendChild(div);
+                input.value = "";
+            }
+        });
+    </script>
+</body>
+
+</html>
